@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {User.class, Records.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Records.class}, version = 2, exportSchema = false)
 public abstract class MotionMeterDatabase extends RoomDatabase {
     private static  final String DATABASE_NAME = "MotionMeter_database";
 

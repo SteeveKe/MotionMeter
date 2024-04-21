@@ -7,7 +7,7 @@ import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
 
 import java.util.Objects;
 
-@Entity(tableName = MotionMeterDatabase.USER_TABLE)
+@Entity(tableName = MotionMeterDatabase.userTable)
 public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;

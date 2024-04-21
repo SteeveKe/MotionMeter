@@ -18,9 +18,9 @@ public interface UserDAO {
     @Delete
     void delete(User user);
 
-    @Query("Select * from " + MotionMeterDatabase.USER_TABLE + " ORDER BY username")
+    @Query("Select * from " + MotionMeterDatabase.userTable + " ORDER BY username")
     List<User> getAllUsers();
 
-    @Query("DELETE from " + MotionMeterDatabase.USER_TABLE)
+    @Query("DELETE from " + MotionMeterDatabase.userTable)
     void deleteAll();
 }

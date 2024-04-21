@@ -18,14 +18,14 @@ public class MotionMeterRepository {
 
     private ArrayList<Records> recordsLogs;
 
-    public MotionMeterRepository(Application application){
+    public MotionMeterRepository(Application application) {
         MotionMeterDatabase db = MotionMeterDatabase.getDatabase(application);
         this.userDAO = db.UserDAO();
         this.recordsDAO = db.RecordsDAO();
-        this.allLogs = (ArrayList<User>) this.userDAO.getAllRecords();
+        this.allLogs = (ArrayList<User>) this.userDAO.getAllUsers();
         this.recordsLogs = (ArrayList<Records>) this.recordsDAO.getAllRecords();
 
-
+    }
     private static MotionMeterRepository repository;
 
 
@@ -86,7 +86,7 @@ public class MotionMeterRepository {
         return null;
     }
 
-    public void insertUser(User user){
+    public void insertUser(User... user){
         MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
             userDAO.insert(user);
         });

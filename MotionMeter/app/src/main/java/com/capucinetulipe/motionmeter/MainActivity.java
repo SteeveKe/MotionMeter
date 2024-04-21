@@ -12,18 +12,14 @@ import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private MotionMeterRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        repository = new MotionMeterRepository(getApplication());
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        repository = MotionMeterRepository.getRepository(getApplication());
     }
 
 }
