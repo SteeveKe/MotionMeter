@@ -1,6 +1,8 @@
 package com.capucinetulipe.motionmeter.database.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
@@ -8,12 +10,19 @@ import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity(tableName = MotionMeterDatabase.recordsTable)
+@Entity(tableName = MotionMeterDatabase.recordsTable, foreignKeys = {@ForeignKey(entity = User.class,
+        parentColumns = "id",
+        childColumns = "user_id",
+        onDelete = ForeignKey.CASCADE)
+})
 public class Records {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private int user_id;  //TODO add foreign key
+
+
+    @ColumnInfo(index = true)
+    private int user_id;
 
     private LocalDateTime dateAtRecord;
 
