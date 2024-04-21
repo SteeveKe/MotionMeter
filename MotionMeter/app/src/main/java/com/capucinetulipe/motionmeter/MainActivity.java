@@ -12,6 +12,9 @@ import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private MotionMeterRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,5 +29,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private MotionMeterRepository repository;
 }
