@@ -15,6 +15,7 @@ public class MotionMeterRepository {
     private UserDAO userDAO;
     private RecordsDAO recordsDAO;
     private ArrayList<User> allLogs;
+
     private ArrayList<Records> recordsLogs;
 
     public MotionMeterRepository(Application application){
@@ -23,6 +24,30 @@ public class MotionMeterRepository {
         this.recordsDAO = db.RecordsDAO();
         this.allLogs = (ArrayList<User>) this.userDAO.getAllRecords();
         this.recordsLogs = (ArrayList<Records>) this.recordsDAO.getAllRecords();
+
+
+    private static MotionMeterRepository repository;
+
+
+    public static MotionMeterRepository getRepository(Application application){
+        if (repository != null){
+            return repository;
+        }
+        Future<MotionMeterRepository> future = MotionMeterDatabase.databaseWriteExecutor.submit(
+                new Callable<MotionMeterRepository>() {
+                    @Override
+                    public MotionMeterRepository call() throws Exception {
+                        return new MotionMeterRepository(application);
+                    }
+                }
+        );
+        try{
+            return future.get();
+        } catch (InterruptedException | ExecutionException e){
+
+        }
+        return null;
+
     }
 
     public ArrayList<User> getAllLogs() {
@@ -30,7 +55,7 @@ public class MotionMeterRepository {
                 new Callable<ArrayList<User>>() {
                     @Override
                     public ArrayList<User> call() throws Exception {
-                        return (ArrayList<User>) userDAO.getAllRecords();
+                        return (ArrayList<User>) userDAO.getAllUsers();
                     }
                 }
         );
