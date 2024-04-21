@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 @TypeConverters(LocalDateTypeConverter.class)
 @Database(entities = {User.class, Records.class}, version = 2, exportSchema = false)
 public abstract class MotionMeterDatabase extends RoomDatabase {
-    private static  final String DATABASE_NAME = "MotionMeter_database";
+    private static  final String DATABASE_NAME = "MotionMeterDatabase";
 
     public static final String recordsTable = "recordsTable";
     public static final String userTable = "userTable";

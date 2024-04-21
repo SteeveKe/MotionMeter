@@ -1,5 +1,6 @@
 package com.capucinetulipe.motionmeter.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,8 +20,11 @@ public interface UserDAO {
     void delete(User user);
 
     @Query("Select * from " + MotionMeterDatabase.userTable + " ORDER BY username")
-    List<User> getAllUsers();
+    LiveData<List<User>> getAllUsers();
 
     @Query("DELETE from " + MotionMeterDatabase.userTable)
     void deleteAll();
+
+    @Query("SELECT * from " + MotionMeterDatabase.userTable + " WHERE username == :username")
+    LiveData<User> getUserByUserName(String username);
 }
