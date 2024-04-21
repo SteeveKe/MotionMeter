@@ -3,6 +3,8 @@ package com.capucinetulipe.motionmeter.database;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.capucinetulipe.motionmeter.database.entities.Records;
 import com.capucinetulipe.motionmeter.database.entities.User;
 
@@ -14,7 +16,7 @@ import java.util.concurrent.Future;
 public class MotionMeterRepository {
     private UserDAO userDAO;
     private RecordsDAO recordsDAO;
-    private ArrayList<User> allLogs;
+    private ArrayList<User> allUser;
 
     private ArrayList<Records> recordsLogs;
 
@@ -22,7 +24,7 @@ public class MotionMeterRepository {
         MotionMeterDatabase db = MotionMeterDatabase.getDatabase(application);
         this.userDAO = db.UserDAO();
         this.recordsDAO = db.RecordsDAO();
-        this.allLogs = (ArrayList<User>) this.userDAO.getAllUsers();
+        //this.allUser = (ArrayList<User>) this.userDAO.getAllUsers();
         this.recordsLogs = (ArrayList<Records>) this.recordsDAO.getAllRecords();
 
     }
@@ -50,7 +52,8 @@ public class MotionMeterRepository {
 
     }
 
-    public ArrayList<User> getAllLogs() {
+    /*
+    public ArrayList<User> getAllUsers() {
         Future<ArrayList<User>> future = MotionMeterDatabase.databaseWriteExecutor.submit(
                 new Callable<ArrayList<User>>() {
                     @Override
@@ -67,6 +70,8 @@ public class MotionMeterRepository {
         }
         return null;
     }
+    */
+
 
     public ArrayList<Records> getRecordsLogs() {
         Future<ArrayList<Records>> future = MotionMeterDatabase.databaseWriteExecutor.submit(
@@ -96,5 +101,9 @@ public class MotionMeterRepository {
         MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
             recordsDAO.insert(record);
         });
+    }
+
+    public LiveData<User> getUserByUserName(String username) {
+        return userDAO.getUserByUserName(username);
     }
 }
