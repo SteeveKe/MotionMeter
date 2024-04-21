@@ -13,10 +13,10 @@ import com.capucinetulipe.motionmeter.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class}, version = 2, exportSchema = false)
 public abstract class MotionMeterDatabase extends RoomDatabase {
-    private static  final String DATABASE_NAME = "MotionMeter_database";
-    public static final String userTable = "userTable";
+    private static final String DATABASE_NAME = "MotionMeterDatabase";
+    public static final String USER_TABLE= "userTable";
     private static volatile MotionMeterDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
 
@@ -41,7 +41,16 @@ public abstract class MotionMeterDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
             //Log.i(MainActivity.TAG, "DATABASE CREATED!");
-            //TODO: add databaseWriteExecutor.execute() -> {...}
+            databaseWriteExecutor.execute(() -> {
+                UserDAO dao = INSTANCE.UserDAO();
+                dao.deleteAll();
+                User admin = new User("admin1", "admin1");
+                admin.setAdmin(true);
+                dao.insert(admin);
+
+                User testUser1 = new User("testuser1", "testuser1");
+                dao.insert(testUser1);
+            });
         }
     };
 

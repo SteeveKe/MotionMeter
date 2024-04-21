@@ -12,10 +12,33 @@ import java.util.concurrent.Future;
 public class MotionMeterRepository {
     private UserDAO userDAO;
     private ArrayList<User> allLogs;
-    public MotionMeterRepository(Application application){
+
+    private static MotionMeterRepository repository;
+
+    private MotionMeterRepository(Application application){
         MotionMeterDatabase db = MotionMeterDatabase.getDatabase(application);
         this.userDAO = db.UserDAO();
-        this.allLogs = (ArrayList<User>) this.userDAO.getAllRecords();
+        this.allLogs = (ArrayList<User>) this.userDAO.getAllUsers();
+    }
+
+    public static MotionMeterRepository getRepository(Application application){
+        if (repository != null){
+            return repository;
+        }
+        Future<MotionMeterRepository> future = MotionMeterDatabase.databaseWriteExecutor.submit(
+                new Callable<MotionMeterRepository>() {
+                    @Override
+                    public MotionMeterRepository call() throws Exception {
+                        return new MotionMeterRepository(application);
+                    }
+                }
+        );
+        try{
+            return future.get();
+        } catch (InterruptedException | ExecutionException e){
+
+        }
+        return null;
     }
 
     public ArrayList<User> getAllLogs() {
@@ -23,7 +46,7 @@ public class MotionMeterRepository {
                 new Callable<ArrayList<User>>() {
                     @Override
                     public ArrayList<User> call() throws Exception {
-                        return (ArrayList<User>) userDAO.getAllRecords();
+                        return (ArrayList<User>) userDAO.getAllUsers();
                     }
                 }
         );
@@ -36,7 +59,7 @@ public class MotionMeterRepository {
         return null;
     }
 
-    public void insertUser(User user){
+    public void insertUser(User... user){
         MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
             userDAO.insert(user);
         });
