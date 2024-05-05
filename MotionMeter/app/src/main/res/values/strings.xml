@@ -4,4 +4,9 @@
     <string name="username">Username</string>
     <string name="password">password</string>
     <string name="Password">Password</string>
+    <string name="preference_file_key">daclinkPreferenceFileNameMotionMeter</string>
+    <string name="preference_userid_key">daclinkPreferenceUserIdKeyMotionMeter</string>
+    <string name="sign_in">Sign In</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Login</string>
 </resources>

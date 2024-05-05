@@ -5,10 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".SignInActivity">
 
     <TextView
-        android:id="@+id/titleLoginTextView"
+        android:id="@+id/titleSignInTextView"
         android:layout_width="327dp"
         android:layout_height="170dp"
         android:layout_marginTop="28dp"
@@ -20,41 +20,44 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/userNameLoginEditText"
+        android:id="@+id/userNameSignInEditText"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_margin="16dp"
         android:hint="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleLoginTextView"
+        app:layout_constraintTop_toBottomOf="@id/titleSignInTextView"
         android:gravity="center"
         android:autofillHints="Please enter username"
         android:textSize="24sp"
         android:inputType="text"/>
     <EditText
-        android:id="@+id/passwordLoginEditText"
+        android:id="@+id/passwordSignInEditText"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_margin="16dp"
         android:hint="@string/Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userNameLoginEditText"
+        app:layout_constraintTop_toBottomOf="@id/userNameSignInEditText"
         android:gravity="center"
         android:autofillHints="Please enter password"
         android:textSize="24sp"
         android:inputType="textPassword"/>
-    <Button
-        android:id="@+id/loginButton"
+    <EditText
+        android:id="@+id/passwordSignInConfirmEditText"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:text="@string/login"
-        android:textSize="32sp"
+        android:layout_height="75dp"
+        android:layout_margin="16dp"
+        android:autofillHints="Please enter password"
+        android:gravity="center"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLoginEditText"
-        android:layout_margin="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/passwordSignInEditText" />
     <Button
         android:id="@+id/SignInButton"
         android:layout_width="match_parent"
@@ -63,6 +66,7 @@
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/passwordSignInConfirmEditText"
         android:layout_margin="20dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

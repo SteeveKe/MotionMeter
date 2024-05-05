@@ -1,7 +1,9 @@
 package com.capucinetulipe.motionmeter;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -32,6 +34,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                verifyUser();
+            }
+        });
+
+        binding.SignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SignInActivity.SignInIntentFactory(getApplicationContext()));
             }
         });
     }
