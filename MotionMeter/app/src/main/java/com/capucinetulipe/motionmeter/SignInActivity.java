@@ -23,6 +23,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
     private MotionMeterRepository repository;
+    private boolean isNewAccount = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +66,13 @@ public class SignInActivity extends AppCompatActivity {
                 }
 
                 if (password.equals(confirmPassword)){
+                    isNewAccount = true;
                     User newUser = new User(username, password);
                     repository.insertUser(newUser);
 
                     LiveData<User> newUserObserver = repository.getUserByUserName(newUser.getUsername());
                     newUserObserver.observe(this, user1 -> {
-                        if (user1.getUsername().equals(newUser.getUsername())){
+                        if (user1 != null && user1.getUsername().equals(newUser.getUsername())){
                             updateSharedPreference(user1.getId());
                             startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user1.getId()));
                         }
@@ -81,8 +83,10 @@ public class SignInActivity extends AppCompatActivity {
                     binding.passwordSignInEditText.setSelection(0);
                 }
             }else {
-                toastMaker(String.format("%s already exist", username));
-                binding.userNameSignInEditText.setSelection(0);
+                if (!isNewAccount){
+                    toastMaker(String.format("%s already exist", username));
+                    binding.userNameSignInEditText.setSelection(0);
+                }
             }
         });
     }
