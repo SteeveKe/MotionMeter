@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 
 import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
@@ -45,6 +48,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         updateSharedPreference();
+
+        replaceFragment(new HomeFragment());
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.navigation_home){
+                replaceFragment(new HomeFragment());
+            }
+            else if (item.getItemId() == R.id.navigation_add){
+                replaceFragment(new AddFragment());
+            }
+            else if (item.getItemId() == R.id.navigation_settings){
+                replaceFragment(new SettingsFragment());
+            }
+
+            return true;
+        });
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 
     private void loginUser(Bundle savedInstanceState) {

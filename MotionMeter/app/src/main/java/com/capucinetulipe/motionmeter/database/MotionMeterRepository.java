@@ -15,7 +15,7 @@ import java.util.concurrent.Future;
 
 public class MotionMeterRepository {
     private final UserDAO userDAO;
-    private  final RecordsDAO recordsDAO;
+    private final RecordsDAO recordsDAO;
     private ArrayList<User> allUser;
 
     private ArrayList<Records> recordsLogs;

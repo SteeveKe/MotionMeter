@@ -47,7 +47,6 @@ public abstract class MotionMeterDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
-            //Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.UserDAO();
                 dao.deleteAll();
