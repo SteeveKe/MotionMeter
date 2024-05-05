@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class MotionMeterRepository {
-    private UserDAO userDAO;
-    private RecordsDAO recordsDAO;
+    private final UserDAO userDAO;
+    private  final RecordsDAO recordsDAO;
     private ArrayList<User> allUser;
 
     private ArrayList<Records> recordsLogs;
@@ -105,5 +105,9 @@ public class MotionMeterRepository {
 
     public LiveData<User> getUserByUserName(String username) {
         return userDAO.getUserByUserName(username);
+    }
+
+    public LiveData<User> getUserByUserId(int userID) {
+        return userDAO.getUserByUserId(userID);
     }
 }

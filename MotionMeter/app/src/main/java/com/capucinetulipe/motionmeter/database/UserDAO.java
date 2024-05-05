@@ -27,4 +27,7 @@ public interface UserDAO {
 
     @Query("SELECT * from " + MotionMeterDatabase.userTable + " WHERE username == :username")
     LiveData<User> getUserByUserName(String username);
+
+    @Query("SELECT * from " + MotionMeterDatabase.userTable + " WHERE id == :userId")
+    LiveData<User> getUserByUserId(int userId);
 }
