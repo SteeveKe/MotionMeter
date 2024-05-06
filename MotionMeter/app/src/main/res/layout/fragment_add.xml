@@ -47,6 +47,18 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/recordInProgress"
+            android:layout_width="158dp"
+            android:layout_height="25dp"
+            android:visibility="invisible"
+            android:text="Record in progress"
+            app:layout_constraintBottom_toTopOf="@+id/gfactor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.457"
+            tools:layout_editor_absoluteX="126dp"
+            android:gravity="center"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

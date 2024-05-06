@@ -26,11 +26,13 @@ public class Records {
 
     private double minG;
 
-    private LocalDateTime dateAtRecord;
 
-    public Records(int user_id) {
-        this.folder_id = user_id;
-        this.dateAtRecord = LocalDateTime.now();
+
+
+    public Records(int folder_id, double maxG, double minG) {
+        this.folder_id = folder_id;
+        this.maxG = maxG;
+        this.minG = minG;
     }
 
     public double getMaxG() {
@@ -65,30 +67,17 @@ public class Records {
         this.folder_id = folder_id;
     }
 
-    public LocalDateTime getDateAtRecord() {
-        return dateAtRecord;
-    }
-
-    public void setDateAtRecord(LocalDateTime dateAtRecord) {
-        this.dateAtRecord = dateAtRecord;
-    }
-
-    public Records(double maxG, double minG, LocalDateTime dateAtRecord) {
-        this.maxG = maxG;
-        this.minG = minG;
-        this.dateAtRecord = dateAtRecord;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Records records = (Records) o;
-        return getId() == records.getId() && getFolder_id() == records.getFolder_id() && Double.compare(getMaxG(), records.getMaxG()) == 0 && Double.compare(getMinG(), records.getMinG()) == 0 && Objects.equals(getDateAtRecord(), records.getDateAtRecord());
+        return getId() == records.getId() && getFolder_id() == records.getFolder_id() && Double.compare(getMaxG(), records.getMaxG()) == 0 && Double.compare(getMinG(), records.getMinG()) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFolder_id(), getMaxG(), getMinG(), getDateAtRecord());
+        return Objects.hash(getId(), getFolder_id(), getMaxG(), getMinG());
     }
 }

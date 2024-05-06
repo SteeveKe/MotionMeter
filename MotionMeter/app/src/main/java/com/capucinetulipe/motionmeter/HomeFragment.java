@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
 
                 if (recordsList != null){
                     for (Records r : recordsList){
-                        records += r.getSpeed() + " | " + r.getDateAtRecord() + "\n";
+                        records += r.getMaxG() + " | " + r.getMinG() + " | "+ r.getDateAtRecord() + "\n";
                     }
                 }
                 records += "\n";
