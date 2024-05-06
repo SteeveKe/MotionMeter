@@ -16,11 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
 import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
 import com.capucinetulipe.motionmeter.database.entities.User;
 import com.capucinetulipe.motionmeter.databinding.ActivityMainBinding;
+import com.capucinetulipe.motionmeter.viewHolders.FolderAdapter;
+import com.capucinetulipe.motionmeter.viewHolders.FolderViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private User user;
 
     private int loggedInUserID = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,4 +186,7 @@ public class MainActivity extends AppCompatActivity {
         return intent;
     }
 
+    public int getLoggedInUserID() {
+        return loggedInUserID;
+    }
 }
