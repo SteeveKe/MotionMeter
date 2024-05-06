@@ -192,8 +192,4 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MAIN_ACTIVITY_USER_ID, userID);
         return intent;
     }
-
-    public int getLoggedInUserID() {
-        return loggedInUserID;
-    }
 }

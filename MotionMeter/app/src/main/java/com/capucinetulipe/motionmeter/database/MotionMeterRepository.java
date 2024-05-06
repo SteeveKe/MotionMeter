@@ -126,8 +126,9 @@ public class MotionMeterRepository {
         return folderDAO.getAllFolderByUserID(userID);
     }
 
-    public LiveData<List<Records>> getAllRecordByFolder(int id){
+    public LiveData<List<Records>> getAllRecordByFolder(int id) {
         return recordsDAO.getAllRecordByFolder(id);
+    }
 
     public void changePass(String newPass, int id){
         MotionMeterDatabase.databaseWriteExecutor.execute(() -> {

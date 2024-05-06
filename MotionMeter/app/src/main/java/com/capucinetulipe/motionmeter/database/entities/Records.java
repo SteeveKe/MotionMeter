@@ -22,7 +22,9 @@ public class Records {
     @ColumnInfo(index = true)
     private int folder_id;
 
-    private double speed;
+    private double maxG;
+
+    private double minG;
 
     private LocalDateTime dateAtRecord;
 
@@ -31,12 +33,20 @@ public class Records {
         this.dateAtRecord = LocalDateTime.now();
     }
 
-    public double getSpeed() {
-        return speed;
+    public double getMaxG() {
+        return maxG;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
+    public void setMaxG(double maxG) {
+        this.maxG = maxG;
+    }
+
+    public double getMinG() {
+        return minG;
+    }
+
+    public void setMinG(double minG) {
+        this.minG = minG;
     }
 
     public int getId() {
@@ -63,8 +73,9 @@ public class Records {
         this.dateAtRecord = dateAtRecord;
     }
 
-    public Records(double speed, LocalDateTime dateAtRecord) {
-        this.speed = speed;
+    public Records(double maxG, double minG, LocalDateTime dateAtRecord) {
+        this.maxG = maxG;
+        this.minG = minG;
         this.dateAtRecord = dateAtRecord;
     }
 
@@ -73,11 +84,11 @@ public class Records {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Records records = (Records) o;
-        return id == records.id && folder_id == records.folder_id && Double.compare(speed, records.speed) == 0 && Objects.equals(dateAtRecord, records.dateAtRecord);
+        return getId() == records.getId() && getFolder_id() == records.getFolder_id() && Double.compare(getMaxG(), records.getMaxG()) == 0 && Double.compare(getMinG(), records.getMinG()) == 0 && Objects.equals(getDateAtRecord(), records.getDateAtRecord());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, folder_id, speed, dateAtRecord);
+        return Objects.hash(getId(), getFolder_id(), getMaxG(), getMinG(), getDateAtRecord());
     }
 }

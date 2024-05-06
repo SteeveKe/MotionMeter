@@ -125,6 +125,7 @@ public class AddFragment extends Fragment implements SensorEventListener {
         }
         else{
             isRecording = false;
+            
             //insert record
         }
     }
