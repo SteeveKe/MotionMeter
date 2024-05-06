@@ -121,11 +121,30 @@ public class MotionMeterRepository {
         return userDAO.getUserByUserId(userID);
     }
 
+
     public LiveData<List<Folder>> getAllFolderByUserID(int userID){
         return folderDAO.getAllFolderByUserID(userID);
     }
 
     public LiveData<List<Records>> getAllRecordByFolder(int id){
         return recordsDAO.getAllRecordByFolder(id);
+
+    public void changePass(String newPass, int id){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.changePass(newPass, id);
+        });
+    }
+
+    public void deleteUser(String username){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
+            userDAO.deleteUser(username);
+        } );
+    }
+
+    public void giveAdminPower(String username){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.giveAdminPower(username);
+        });
+
     }
 }

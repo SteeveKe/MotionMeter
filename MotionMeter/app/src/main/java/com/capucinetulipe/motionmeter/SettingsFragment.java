@@ -3,10 +3,18 @@ package com.capucinetulipe.motionmeter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
+import com.capucinetulipe.motionmeter.database.UserDAO;
+import com.capucinetulipe.motionmeter.database.entities.User;
+import com.capucinetulipe.motionmeter.databinding.FragmentSettingsBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +31,9 @@ public class SettingsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private MotionMeterRepository repository;
+
+    private int id;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -46,6 +57,8 @@ public class SettingsFragment extends Fragment {
         return fragment;
     }
 
+    private FragmentSettingsBinding binding;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +66,122 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        repository = MotionMeterRepository.getRepository(getActivity().getApplication());
+
+
+    }
+
+    private void changePassword() {
+        String oldPassword = binding.oldPassword.getText().toString();
+        LiveData<User> userObserver = repository.getUserByUserId(id);
+        userObserver.observe(this, user -> {
+            if (user != null){
+                if (oldPassword.equals(user.getPassword())){
+                    String newPassword = binding.newPassword1.getText().toString();
+                    String newPasswordConfirmation = binding.newPassword1.getText().toString();
+                    if (newPassword.isEmpty()){
+                        toastMaker("new password cant be empty");
+                        return;
+                    }
+                    if (newPassword.equals(newPasswordConfirmation)){
+                        binding.oldPassword.setSelection(0);
+                        repository.changePass(newPassword, id);
+                        toastMaker("password changed");
+                        userObserver.removeObservers(this);
+                    }else {
+                        toastMaker("the two password dont match");
+                    }
+                }
+                else{
+                    binding.oldPassword.setSelection(0);
+                    toastMaker("invalid password");
+                }
+            }
+            else {
+                toastMaker(String.format("%d is not a valid user", id));
+            }
+        });
+    }
+
+    private void deleteUser() {
+        String userName = binding.deleteUser.getText().toString();
+        LiveData<User> userObserver = repository.getUserByUserName(userName);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                repository.deleteUser(userName);
+                toastMaker(String.format("%s has been deleted", userName));
+                userObserver.removeObservers(getViewLifecycleOwner());
+            }
+            else {
+                toastMaker("this user does not exist");
+            }
+        });
+    }
+
+    private void giveAdminPower(){
+        String userName = binding.whoToRaise.getText().toString();
+        LiveData<User> userObserver = repository.getUserByUserName(userName);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                repository.giveAdminPower(userName);
+                toastMaker(String.format("%s is now worthy", userName));
+                userObserver.removeObservers(getViewLifecycleOwner());
+            }
+            else {
+                toastMaker("this user does not exist");
+            }
+        });
+    }
+
+    private void toastMaker(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        MainActivity test = (MainActivity)getActivity();
+        id = test.getLoggedInUserID();
+
+        binding = FragmentSettingsBinding.inflate(inflater);
+        View view = binding.getRoot();
+        binding.change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changePassword();
+            }
+        });
+
+        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUser();
+            }
+        });
+
+        binding.Raise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                giveAdminPower();
+            }
+        });
+
+
+        LiveData<User> userObserver = repository.getUserByUserId(id);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                if (user.getAdmin()){
+                    binding.adminPage.setVisibility(View.VISIBLE);
+                    binding.adminPower.setVisibility(View.VISIBLE);
+                    binding.knights.setVisibility(View.VISIBLE);
+                    binding.textAdminPower.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        return view;
     }
+
+
 }
