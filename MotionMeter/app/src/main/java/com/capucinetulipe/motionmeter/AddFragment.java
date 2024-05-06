@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
+import com.capucinetulipe.motionmeter.database.entities.Records;
 import com.capucinetulipe.motionmeter.databinding.FragmentAddBinding;
 
+import java.sql.Time;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -74,6 +77,7 @@ public class AddFragment extends Fragment implements SensorEventListener {
 
     double g = 9.81;
 
+    public MotionMeterRepository repository;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +89,7 @@ public class AddFragment extends Fragment implements SensorEventListener {
         for (int i = 0; i < 4; i++) {
             accelBuffer.offer((double) 0);
         }
+        repository = MotionMeterRepository.getRepository(getActivity().getApplication());
         SensorManager sensorManager = (SensorManager) getLayoutInflater().getContext().getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_GAME);
@@ -94,9 +99,34 @@ public class AddFragment extends Fragment implements SensorEventListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        MainActivity test = (MainActivity)getActivity();
+        id = test.getLoggedInUserID();
         binding = FragmentAddBinding.inflate(inflater);
         View view = binding.getRoot();
+        binding.record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {Record();
+            }
+        });
         return view;
+    }
+
+    private boolean isRecording = false;
+    private Time time;
+    private long duration;
+
+    public int id;
+
+    private void Record(){
+        if (!isRecording){
+            isRecording = true;
+            maxG = 1;
+            minG = 1;
+        }
+        else{
+            isRecording = false;
+            //insert record
+        }
     }
 
 
@@ -114,11 +144,14 @@ public class AddFragment extends Fragment implements SensorEventListener {
                 average += d;
             }
             average /= 4;
-            if (average > maxG){
-                maxG = average;
-            }
-            if (average < minG){
-                minG = average;
+            if (isRecording)
+            {
+                if (average > maxG) {
+                    maxG = average;
+                }
+                if (average < minG) {
+                    minG = average;
+                }
             }
             String temp = String.format("G factor: %.3f", average);
             binding.gfactor.setText(temp);
