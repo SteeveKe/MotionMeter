@@ -73,10 +73,10 @@ public class Records {
         this.dateAtRecord = dateAtRecord;
     }
 
-    public Records(double maxG, double minG, LocalDateTime dateAtRecord) {
+    public Records(double maxG, double minG) {
         this.maxG = maxG;
         this.minG = minG;
-        this.dateAtRecord = dateAtRecord;
+        this.dateAtRecord = LocalDateTime.now();
     }
 
     @Override

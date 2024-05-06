@@ -18,4 +18,7 @@ public interface FolderDAO {
 
     @Query("Select * from " + MotionMeterDatabase.folderTable + " WHERE user_id LIKE :userID OR isGlobal")
     LiveData<List<Folder>> getAllFolderByUserID(int userID);
+
+    @Query("Select * from " + MotionMeterDatabase.folderTable + " WHERE folderName LIKE :folder AND user_id LIKE :id")
+    LiveData<Folder> getFolderName(String folder, int id);
 }
