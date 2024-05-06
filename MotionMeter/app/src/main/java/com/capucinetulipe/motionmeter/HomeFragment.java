@@ -148,7 +148,7 @@ public class HomeFragment extends Fragment {
 
                 if (recordsList != null){
                     for (Records r : recordsList){
-                        records += "min " + r.getMinG() + "max " + r.getMaxG() + " | " + r.getDateAtRecord() + "\n";
+                        records += "min " + r.getMinG() + " | " + "max " + r.getMaxG() + "\n";
 
                     }
                 }

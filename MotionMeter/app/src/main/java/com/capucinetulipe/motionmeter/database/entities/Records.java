@@ -27,8 +27,6 @@ public class Records {
     private double minG;
 
 
-
-
     public Records(int folder_id, double maxG, double minG) {
         this.folder_id = folder_id;
         this.maxG = maxG;
@@ -65,20 +63,6 @@ public class Records {
 
     public void setFolder_id(int folder_id) {
         this.folder_id = folder_id;
-    }
-
-    public LocalDateTime getDateAtRecord() {
-        return dateAtRecord;
-    }
-
-    public void setDateAtRecord(LocalDateTime dateAtRecord) {
-        this.dateAtRecord = dateAtRecord;
-    }
-
-    public Records(double maxG, double minG) {
-        this.maxG = maxG;
-        this.minG = minG;
-        this.dateAtRecord = LocalDateTime.now();
     }
 
     @Override
