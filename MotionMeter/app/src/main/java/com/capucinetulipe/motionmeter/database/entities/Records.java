@@ -67,6 +67,19 @@ public class Records {
         this.folder_id = folder_id;
     }
 
+    public LocalDateTime getDateAtRecord() {
+        return dateAtRecord;
+    }
+
+    public void setDateAtRecord(LocalDateTime dateAtRecord) {
+        this.dateAtRecord = dateAtRecord;
+    }
+
+    public Records(double maxG, double minG) {
+        this.maxG = maxG;
+        this.minG = minG;
+        this.dateAtRecord = LocalDateTime.now();
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -28,6 +28,6 @@ public class FolderViewModel extends AndroidViewModel{
     }
 
     public void insert(Folder folder){
-        repository.insertRecord(folder);
+        repository.insertFolder(folder);
     }
 }

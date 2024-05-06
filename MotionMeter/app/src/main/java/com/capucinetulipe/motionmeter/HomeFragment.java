@@ -100,7 +100,30 @@ public class HomeFragment extends Fragment {
 
         Update();
 
+        binding.addFolderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFolder();
+            }
+        });
+
         return view;
+    }
+
+    private void addFolder(){
+        String name = binding.editTextTextFolderName.getText().toString();
+
+        if (!name.isEmpty()){
+            LiveData<Folder> f = repository.getFolderName(name, loggedInUserID);
+            f.observe(getViewLifecycleOwner(), folders -> {
+                if (folders == null){
+                    Folder folder= new Folder(loggedInUserID, name);
+                    repository.insertFolder(folder);
+                }
+            });
+        }
+
+        Update();
     }
 
     private void Update(){
@@ -125,11 +148,13 @@ public class HomeFragment extends Fragment {
 
                 if (recordsList != null){
                     for (Records r : recordsList){
-                        records += r.getMaxG() + " | " + r.getMinG() + " | "+ r.getDateAtRecord() + "\n";
+                        records += "min " + r.getMinG() + "max " + r.getMaxG() + " | " + r.getDateAtRecord() + "\n";
+
                     }
                 }
                 records += "\n";
             }
         }
+        binding.recordsText.setText(records);
     }
 }

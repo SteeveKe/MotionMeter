@@ -107,7 +107,7 @@ public class MotionMeterRepository {
         });
     }
 
-    public void insertRecord(Folder folder){
+    public void insertFolder(Folder folder){
         MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
             folderDAO.insert(folder);
         });
@@ -146,6 +146,9 @@ public class MotionMeterRepository {
         MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
             userDAO.giveAdminPower(username);
         });
+    }
 
+    public LiveData<Folder> getFolderName(String folder, int id){
+        return folderDAO.getFolderName(folder, id);
     }
 }
