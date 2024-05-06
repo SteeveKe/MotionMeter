@@ -1,12 +1,33 @@
 package com.capucinetulipe.motionmeter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.capucinetulipe.motionmeter.database.MotionMeterRepository;
+import com.capucinetulipe.motionmeter.database.entities.Folder;
+import com.capucinetulipe.motionmeter.database.entities.Records;
+import com.capucinetulipe.motionmeter.database.entities.User;
+import com.capucinetulipe.motionmeter.databinding.FragmentHomeBinding;
+import com.capucinetulipe.motionmeter.viewHolders.FolderAdapter;
+import com.capucinetulipe.motionmeter.viewHolders.FolderViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +44,16 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FragmentHomeBinding binding;
+    private FolderViewModel folderViewModel;
+    private MotionMeterRepository repository;
+
+    private List<Folder> userFolders;
+
+    private int loggedInUserID;
+
+    private List<Records> recordsList = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,7 +89,47 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        binding = FragmentHomeBinding.inflate(inflater);
+        View view = binding.getRoot();
+        repository = MotionMeterRepository.getRepository(getActivity().getApplication());
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        loggedInUserID = sharedPreferences.getInt(getString(R.string.preference_userid_key), -1);
+
+        Update();
+
+        return view;
+    }
+
+    private void Update(){
+        LiveData<List<Folder>> folderObserver = repository.getAllFolderByUserID(loggedInUserID);
+        folderObserver.observe(getViewLifecycleOwner(), folders -> {
+            if (folders != null){
+                userFolders = folders;
+            }
+        });
+
+        String records = "";
+        if (userFolders != null){
+            for (Folder folder : userFolders){
+                records += folder.getFolderName() + " :\n";
+
+                LiveData<List<Records>> recordObserver = repository.getAllRecordByFolder(folder.getId());
+                recordObserver.observe(getViewLifecycleOwner(), record -> {
+                    if (record != null){
+                        recordsList = record;
+                    }
+                });
+
+                if (recordsList != null){
+                    for (Records r : recordsList){
+                        records += r.getSpeed() + " | " + r.getDateAtRecord() + "\n";
+                    }
+                }
+                records += "\n";
+            }
+        }
     }
 }

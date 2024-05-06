@@ -10,25 +10,33 @@ import com.capucinetulipe.motionmeter.database.MotionMeterDatabase;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity(tableName = MotionMeterDatabase.recordsTable, foreignKeys = {@ForeignKey(entity = User.class,
+@Entity(tableName = MotionMeterDatabase.recordsTable, foreignKeys = {@ForeignKey(entity = Folder.class,
         parentColumns = "id",
-        childColumns = "user_id",
+        childColumns = "folder_id",
         onDelete = ForeignKey.CASCADE)
 })
 public class Records {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-
-
     @ColumnInfo(index = true)
-    private int user_id;
+    private int folder_id;
+
+    private double speed;
 
     private LocalDateTime dateAtRecord;
 
     public Records(int user_id) {
-        this.user_id = user_id;
+        this.folder_id = user_id;
         this.dateAtRecord = LocalDateTime.now();
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     public int getId() {
@@ -39,12 +47,12 @@ public class Records {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getFolder_id() {
+        return folder_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setFolder_id(int folder_id) {
+        this.folder_id = folder_id;
     }
 
     public LocalDateTime getDateAtRecord() {
@@ -55,18 +63,21 @@ public class Records {
         this.dateAtRecord = dateAtRecord;
     }
 
+    public Records(double speed, LocalDateTime dateAtRecord) {
+        this.speed = speed;
+        this.dateAtRecord = dateAtRecord;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Records records = (Records) o;
-        return getId() == records.getId() && getUser_id() == records.getUser_id() && Objects.equals(getDateAtRecord(), records.getDateAtRecord());
+        return id == records.id && folder_id == records.folder_id && Double.compare(speed, records.speed) == 0 && Objects.equals(dateAtRecord, records.dateAtRecord);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser_id(), getDateAtRecord());
+        return Objects.hash(id, folder_id, speed, dateAtRecord);
     }
-
-
 }

@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.capucinetulipe.motionmeter.database.entities.Folder;
 import com.capucinetulipe.motionmeter.database.entities.Records;
 import com.capucinetulipe.motionmeter.database.entities.User;
 import com.capucinetulipe.motionmeter.database.typeConverters.LocalDateTypeConverter;
@@ -17,12 +18,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @TypeConverters(LocalDateTypeConverter.class)
-@Database(entities = {User.class, Records.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, Records.class, Folder.class}, version = 4, exportSchema = false)
 public abstract class MotionMeterDatabase extends RoomDatabase {
     private static  final String DATABASE_NAME = "MotionMeterDatabase";
 
     public static final String recordsTable = "recordsTable";
     public static final String userTable = "userTable";
+    public static final String folderTable = "folderTable";
+
 
     private static volatile MotionMeterDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -62,4 +65,5 @@ public abstract class MotionMeterDatabase extends RoomDatabase {
 
     public abstract UserDAO UserDAO();
     public abstract RecordsDAO RecordsDAO();
+    public abstract FolderDAO FolderDAO();
 }

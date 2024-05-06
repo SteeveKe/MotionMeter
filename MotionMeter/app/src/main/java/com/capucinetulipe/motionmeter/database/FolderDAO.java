@@ -6,18 +6,16 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.capucinetulipe.motionmeter.database.entities.Folder;
 import com.capucinetulipe.motionmeter.database.entities.Records;
 
 import java.util.List;
 
 @Dao
-public interface RecordsDAO {
+public interface FolderDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Records records);
+    void insert(Folder folder);
 
-    @Query("Select * from " + MotionMeterDatabase.recordsTable)
-    List<Records> getAllRecords();
-
-    @Query("Select * from " + MotionMeterDatabase.recordsTable + " WHERE folder_id LIKE :id")
-    LiveData<List<Records>> getAllRecordByFolder(int id);
+    @Query("Select * from " + MotionMeterDatabase.folderTable + " WHERE user_id LIKE :userID OR isGlobal")
+    LiveData<List<Folder>> getAllFolderByUserID(int userID);
 }

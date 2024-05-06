@@ -5,10 +5,12 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.capucinetulipe.motionmeter.database.entities.Folder;
 import com.capucinetulipe.motionmeter.database.entities.Records;
 import com.capucinetulipe.motionmeter.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -16,6 +18,7 @@ import java.util.concurrent.Future;
 public class MotionMeterRepository {
     private final UserDAO userDAO;
     private final RecordsDAO recordsDAO;
+    private final FolderDAO folderDAO;
     private ArrayList<User> allUser;
 
     private ArrayList<Records> recordsLogs;
@@ -24,6 +27,7 @@ public class MotionMeterRepository {
         MotionMeterDatabase db = MotionMeterDatabase.getDatabase(application);
         this.userDAO = db.UserDAO();
         this.recordsDAO = db.RecordsDAO();
+        this.folderDAO = db.FolderDAO();
         //this.allUser = (ArrayList<User>) this.userDAO.getAllUsers();
         this.recordsLogs = (ArrayList<Records>) this.recordsDAO.getAllRecords();
 
@@ -103,6 +107,12 @@ public class MotionMeterRepository {
         });
     }
 
+    public void insertRecord(Folder folder){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
+            folderDAO.insert(folder);
+        });
+    }
+
     public LiveData<User> getUserByUserName(String username) {
         return userDAO.getUserByUserName(username);
     }
@@ -110,6 +120,14 @@ public class MotionMeterRepository {
     public LiveData<User> getUserByUserId(int userID) {
         return userDAO.getUserByUserId(userID);
     }
+
+
+    public LiveData<List<Folder>> getAllFolderByUserID(int userID){
+        return folderDAO.getAllFolderByUserID(userID);
+    }
+
+    public LiveData<List<Records>> getAllRecordByFolder(int id){
+        return recordsDAO.getAllRecordByFolder(id);
 
     public void changePass(String newPass, int id){
         MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
@@ -127,5 +145,6 @@ public class MotionMeterRepository {
         MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
             userDAO.giveAdminPower(username);
         });
+
     }
 }
