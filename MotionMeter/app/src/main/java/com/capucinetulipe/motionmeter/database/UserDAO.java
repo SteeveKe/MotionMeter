@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.capucinetulipe.motionmeter.database.entities.User;
 
@@ -30,4 +31,7 @@ public interface UserDAO {
 
     @Query("SELECT * from " + MotionMeterDatabase.userTable + " WHERE id == :userId")
     LiveData<User> getUserByUserId(int userId);
+
+    @Query("UPDATE " + MotionMeterDatabase.userTable + " SET password = :newPass WHERE id = :id")
+    void changePass(String newPass, int id);
 }

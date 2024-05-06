@@ -31,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
     private MotionMeterRepository repository;
     private User user;
 
+
+    public static int id;
+
+    public int getLoggedInUserID() {
+        return loggedInUserID;
+    }
+
     private int loggedInUserID = -1;
 
     @Override
@@ -91,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         if (loggedInUserID == LOGGED_OUT){
             return;
         }
-
+        id = loggedInUserID;
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserID);
         userObserver.observe(this, user -> {
             this.user = user;

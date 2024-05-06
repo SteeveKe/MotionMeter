@@ -110,4 +110,10 @@ public class MotionMeterRepository {
     public LiveData<User> getUserByUserId(int userID) {
         return userDAO.getUserByUserId(userID);
     }
+
+    public void changePass(String newPass, int id){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.changePass(newPass, id);
+        });
+    }
 }
