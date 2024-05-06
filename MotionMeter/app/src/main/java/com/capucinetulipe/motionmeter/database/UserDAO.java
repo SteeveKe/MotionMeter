@@ -26,6 +26,9 @@ public interface UserDAO {
     @Query("DELETE from " + MotionMeterDatabase.userTable)
     void deleteAll();
 
+    @Query("DELETE from " + MotionMeterDatabase.userTable + " WHERE username = :username")
+    void deleteUser(String username);
+
     @Query("SELECT * from " + MotionMeterDatabase.userTable + " WHERE username == :username")
     LiveData<User> getUserByUserName(String username);
 

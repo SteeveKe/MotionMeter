@@ -116,4 +116,10 @@ public class MotionMeterRepository {
             userDAO.changePass(newPass, id);
         });
     }
+
+    public void deleteUser(String username){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() ->{
+            userDAO.deleteUser(username);
+        } );
+    }
 }

@@ -99,7 +99,20 @@ public class SettingsFragment extends Fragment {
                 toastMaker(String.format("%d is not a valid user", id));
             }
         });
+    }
 
+    private void deleteUser() {
+        String userName = binding.deleteUser.getText().toString();
+        LiveData<User> userObserver = repository.getUserByUserName(userName);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                repository.deleteUser(userName);
+                toastMaker(String.format("%s has been deleted", userName));
+            }
+            else {
+                toastMaker("this user does not exist");
+            }
+        });
     }
 
     private void toastMaker(String message) {
@@ -121,6 +134,24 @@ public class SettingsFragment extends Fragment {
                 changePassword();
             }
         });
+
+        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUser();
+            }
+        });
+
+        LiveData<User> userObserver = repository.getUserByUserId(id);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                if (user.getAdmin()){
+                    binding.adminPage.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return view;
     }
+
+
 }
