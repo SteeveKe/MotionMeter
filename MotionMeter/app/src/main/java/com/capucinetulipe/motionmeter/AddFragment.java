@@ -119,14 +119,16 @@ public class AddFragment extends Fragment implements SensorEventListener {
 
     private void Record(){
         if (!isRecording){
+            binding.recordInProgress.setVisibility(View.VISIBLE);
             isRecording = true;
             maxG = 1;
             minG = 1;
         }
         else{
             isRecording = false;
-            
-            //insert record
+            binding.recordInProgress.setVisibility(View.INVISIBLE);
+            Records record = new Records(1, maxG, minG);
+            repository.insertRecord(record);
         }
     }
 
