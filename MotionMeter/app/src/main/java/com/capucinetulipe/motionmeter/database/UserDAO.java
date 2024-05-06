@@ -37,4 +37,7 @@ public interface UserDAO {
 
     @Query("UPDATE " + MotionMeterDatabase.userTable + " SET password = :newPass WHERE id = :id")
     void changePass(String newPass, int id);
+
+    @Query("UPDATE " + MotionMeterDatabase.userTable + " SET isAdmin = true WHERE username = :username")
+    void giveAdminPower(String username);
 }

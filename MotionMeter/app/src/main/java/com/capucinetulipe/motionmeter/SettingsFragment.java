@@ -85,14 +85,17 @@ public class SettingsFragment extends Fragment {
                         return;
                     }
                     if (newPassword.equals(newPasswordConfirmation)){
+                        binding.oldPassword.setSelection(0);
                         repository.changePass(newPassword, id);
-                        return;
+                        toastMaker("password changed");
+                        userObserver.removeObservers(this);
                     }else {
                         toastMaker("the two password dont match");
                     }
-                }else{
-                    toastMaker("Invalid password");
+                }
+                else{
                     binding.oldPassword.setSelection(0);
+                    toastMaker("invalid password");
                 }
             }
             else {
@@ -108,6 +111,22 @@ public class SettingsFragment extends Fragment {
             if (user != null){
                 repository.deleteUser(userName);
                 toastMaker(String.format("%s has been deleted", userName));
+                userObserver.removeObservers(getViewLifecycleOwner());
+            }
+            else {
+                toastMaker("this user does not exist");
+            }
+        });
+    }
+
+    private void giveAdminPower(){
+        String userName = binding.whoToRaise.getText().toString();
+        LiveData<User> userObserver = repository.getUserByUserName(userName);
+        userObserver.observe(getViewLifecycleOwner(), user -> {
+            if (user != null){
+                repository.giveAdminPower(userName);
+                toastMaker(String.format("%s is now worthy", userName));
+                userObserver.removeObservers(getViewLifecycleOwner());
             }
             else {
                 toastMaker("this user does not exist");
@@ -142,11 +161,22 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        binding.Raise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                giveAdminPower();
+            }
+        });
+
+
         LiveData<User> userObserver = repository.getUserByUserId(id);
         userObserver.observe(getViewLifecycleOwner(), user -> {
             if (user != null){
                 if (user.getAdmin()){
                     binding.adminPage.setVisibility(View.VISIBLE);
+                    binding.adminPower.setVisibility(View.VISIBLE);
+                    binding.knights.setVisibility(View.VISIBLE);
+                    binding.textAdminPower.setVisibility(View.VISIBLE);
                 }
             }
         });

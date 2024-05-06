@@ -122,4 +122,10 @@ public class MotionMeterRepository {
             userDAO.deleteUser(username);
         } );
     }
+
+    public void giveAdminPower(String username){
+        MotionMeterDatabase.databaseWriteExecutor.execute(() -> {
+            userDAO.giveAdminPower(username);
+        });
+    }
 }

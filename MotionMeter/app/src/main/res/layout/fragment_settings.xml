@@ -29,11 +29,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="32dp"
             android:ems="10"
             android:hint="new password"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/oldPassword" />
 
@@ -42,11 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="4dp"
             android:ems="10"
-            android:hint="new password again"
+            android:hint="password confirmation"
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/newPassword1" />
 
@@ -54,9 +56,10 @@
             android:id="@+id/change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="4dp"
             android:text="change"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/newPassword2" />
 
@@ -64,10 +67,10 @@
             android:id="@+id/adminPage"
             android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="92dp"
+            android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="@+id/change"
-            tools:layout_editor_absoluteX="1dp"
-            android:visibility="invisible">
+            tools:layout_editor_absoluteX="1dp">
 
             <EditText
                 android:id="@+id/deleteUser"
@@ -75,16 +78,80 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="username"/>
+                android:hint="username"
+                android:inputType="text" />
 
             <Button
                 android:id="@+id/deleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"/>
+                android:text="Delete" />
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="289dp"
+            android:layout_height="41dp"
+            android:gravity="center"
+            android:text="Change your password"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/oldPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.592" />
+
+        <TextView
+            android:id="@+id/adminPower"
+            android:layout_width="167dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="Admin power"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/adminPage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/knights"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="1dp">
+
+            <EditText
+                android:id="@+id/whoToRaise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:hint="username"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/Raise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Knights" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textAdminPower"
+            android:layout_width="184dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:text="give admin power"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/knights"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
